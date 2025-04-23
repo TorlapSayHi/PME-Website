@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product; // Assuming you have a Product model
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -23,30 +24,31 @@ class ProductController extends Controller
     // Store a newly created product in storage
     public function store(Request $request)
     {
-        // ตรวจสอบว่าไฟล์มีการอัพโหลดเข้ามาหรือไม่
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            if ($image->isValid()) {
-                $imageName = time().'_'.$image->getClientOriginalName();
-                $path = $image->storeAs('public/products', $imageName); // เก็บไฟล์ใน public/products
-            } else {
-                return back()->with('error', 'Invalid file');
-            }
-        } else {
-            return back()->with('error', 'No file uploaded');
+            $imageName = $image->getClientOriginalName();
+
+            // $path = $image->storeAs('public/images', $imageName);
+            $image->move(storage_path('app/public/images'), $imageName);
+
+
+
+            Product::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price ? $request->price : null,
+                'image' => $imageName,
+            ]);
+            
+
+            return redirect()->route('products.index')->with('success', 'Product created!');
         }
 
-        // ดำเนินการเพิ่มข้อมูลสินค้าต่อไป
-        Product::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'image' => $imageName,
-        ]);
-
-        return redirect()->route('products.index')->with('success', 'Product created!');
+        return redirect()->back()->with('error', 'Image is required.');
     }
 
+
+    
 
 
     // Show the form for editing the specified product
@@ -57,17 +59,20 @@ class ProductController extends Controller
     }
 
     // Update the specified product in storage
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-        ]);
+        public function update(Request $request, $id)
+        {
+            $product = Product::findOrFail($id);
 
-        $product = Product::findOrFail($id);
-        $product->update($request->all());
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
-    }
+            $product->name = $request->name;
+            $product->description = $request->description;
+            $product->price = $request->price ? $request->price : null;
+
+            if ($product->save()) {
+                return response()->json(['success' => true]);
+            } else {
+                return response()->json(['success' => false], 500);
+            }
+        }
 
     // Remove the specified product from storage
     public function destroy($id)
