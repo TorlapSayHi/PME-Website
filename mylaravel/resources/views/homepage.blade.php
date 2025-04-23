@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>หน้าแรก - บริษัทของเรา</title>
-  @vite('resources/css/app.css') <!-- ใช้กับ Laravel Vite -->
+  @vite('resources/css/app.css') 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 </head>
@@ -14,15 +14,21 @@
   <header id="header" class="shadow bg-white p-6 sticky top-0 z-50 rounded-b-lg transition-all duration-300 ease-in-out">
     <div class="container mx-auto flex justify-between items-center">
       <div class="flex items-center">
-        <img src="resources/img/LogoPME.png" alt="Logo" class="w-20 mr-4">
+        <img src="storage/app/public/images/LogoPME.png" alt="Logo" class="w-20 mr-4">
         <h1 class="text-xl md:text-2xl font-bold">
           <span class="hidden md:inline">POWER MAGNET & ENGINEERING CO., LTD.</span>
           <span class="md:hidden">PME</span>
         </h1>
       </div>
-      <nav class="hidden md:flex">
-        <a href="#about" class="text-blue-500 hover:underline mx-2">เกี่ยวกับบริษัท</a>
-        <a href="#products" class="text-blue-500 hover:underline mx-2">สินค้า</a>
+      <nav class="flex items-center">
+        @guest
+          <p class="mx-5 font-bold">ผู้เยี่ยมชม</p>
+          <a href="{{ route('login') }}" class="font-bold text-blue-500 hover:underline mx-2">Login</a>
+        @endguest
+        @auth
+          <p class="mx-5 font-bold">สวัสดี, {{ Auth::user()->name }}</p>
+          <a href="{{ route('login') }}" class="font-bold text-blue-500 hover:underline mx-2">Logout</a>
+        @endauth
       </nav>
       <button id="menu-toggle" class="md:hidden text-blue-500 focus:outline-none">
         <i class="fas fa-bars"></i>
@@ -75,9 +81,11 @@
       <li class="mb-2">งานบริการติดตั้งงานท่อดักท์ เช่น ท่อดักท์ส่งลม, ท่อดักท์ระบายอากาศ</li>
       <li class="mb-2">งานติดตั้งระบบท่อดักท์ Exhaust ในโรงงาน</li>
     </ul>
+    @auth
     <a href="{{ route('products.index') }}" class="bg-white text-blue-600 font-semibold px-6 py-3 rounded hover:bg-gray-100 transition mt-6 inline-block">
-      แก้ไขสินค้า
+        แก้ไขสินค้า
     </a>
+    @endauth
   </section>
 
   <!-- เกี่ยวกับบริษัท -->
@@ -92,6 +100,18 @@
     </div>
   </section>
 
+  <section id="about" class="py-12 bg-white text-center px-6">
+    <div class="container mx-auto">
+      <h3 class="text-2xl font-bold mb-6">งานออกแบบแม่เหล็ก</h3>
+      <p class="max-w-3xl mx-auto leading-relaxed">
+      ด้วยบริษัท พาวเวอร์แม็กเน็ต แอนด์ เอ็นจิเนียริ่ง จำกัด เป็นผู้ผลิต ออกแบบ และจำหน่ายสินค้าอุปกรณ์แม่เหล็กคัดแยกโลหะปลอมปนที่แอบแฝงมากับสินค้า เช่น เศษโลหะ ตะปู น็อต สนิมเหล็ก ผงเหล็ก ที่เกิดจากการขัดสีของเครื่องจักร  
+ในระหว่างขั้นตอนกระบวนการผลิตสินค้าที่มีความแตกต่างกันออกไป โดยทางบริษัท มีทีมงานที่มีประสบการณ์ ที่จะคอยให้คำปรึกษาและแนะนำปัญหาหน้างานต่างๆ เพื่อให้ท่านลูกค้ามีความมั่นใจว่าสินค้าที่ออกมาจากกระบวนการผลิตนั้น  ปราศจากสิ่งปลอมปนต่างๆ และเป็นไปตามมาตรฐานISO9001:2008,GMP,HACCP เป็นต้น
+    ด้วยกลุ่มของโลหะนั้นมีหลากหลายชนิด แต่ได้จำแนกกลุ่มโลหะเป็น 2 กลุ่ม คือ โลหะ(เหล็ก)และอโลหะ เช่น ทองเหลือง อะลูมิเนียม สแตนเลส นิกเกิล ทำให้อุปกรณ์แม่เหล็กมีความสำคัญในการคัดกรองทั้งเบื้องต้นและปลายทางในขบวนการผลิตและมีการคัดแยกโลหะที่แตกต่างกันไป ซึ่งแม่เหล็กถาวรนั้นดูจับได้ดีที่สุดเพียงโลหะเหล็กเท่านั้น ส่วนกลุ่มของอโลหะ จะต้องใช้เครื่องจับโลหะ(Metal Detector)                                
+    อุปกรณ์คัดแยกโลหะที่ได้กล่าวมาข้างต้นนั้น เรียกได้ว่ามีส่วนช่วยขับเคลื่อนให้การผลิตในภาคอุตสาหกรรมต่างๆ เช่น อุตสาหกรรมผลิตอาหาร เครื่องปรุง ซอส โรงงานน้ำตาล โรงงานแป้ง สาคู โรงสีข้าว อาหารสัตว์ บรรจุภัณฑ์ ซีเมนต์ เหมืองแร่ โรงโม่หิน เยื่อไม้ โรงกระดาษ โรงขัดแยกขยะ ทั้งนี้ทางบริษัทยินดีให้ความรู้ หากท่านมีข้อสงสัยเพิ่มเติม หรืออยากได้คำปรึกษาแนะนำ ทางบริษัทยินดีเป็นย่างยิ่งกับการได้ร่วมแชร์ประสบการณ์นี้ และหวังว่าทางบริษัทจะได้ร่วมงานกับท่านในเร็ววันนี้
+      </p>
+    </div>
+  </section>
+
   <!-- สินค้า -->
   <section id="products" class="py-12 bg-gray-100 px-6">
   <div class="container mx-auto">
@@ -99,11 +119,18 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8" id="product-list">
       @foreach ($products as $index => $product)
-        <div class="bg-white p-6 rounded shadow {{ $index > 2 ? 'hidden extra-product' : '' }}">
-          <img src="{{ asset('public/storage/images/' . $product->image) }}" style="width: 100px; height: auto; border-radius: 5px;">
+        <div class="flex flex-col bg-white p-6 rounded shadow {{ $index > 2 ? 'hidden extra-product' : '' }}">
+          
+            <p class="text-center flex justify-center mb-5">
+            <img src="{{ asset('public/storage/images/' . $product->image) }}" style="width: auto; height: 150px; border-radius: 5px;">
+            </p>
           <h4 class="text-lg font-bold mb-2">{{ $product->name }}</h4>
-          <p class="text-sm text-gray-600">{{ $product->description }}</p>
-          <p class="text-sm text-gray-600">${{ number_format($product->price, 2) }}</p>
+          <p class="text-sm text-gray-600 mb-5">{{ $product->description }}</p>
+          @if ($product->price == 0)
+            <p class="text-sm text-blue-600 mt-auto">ราคา : โปรดติดต่อสอบถามผู้ขาย</p>
+          @else
+            <p class="text-sm text-blue-600 mt-auto">ราคา : ${{ number_format($product->price, 2) }}</p>
+          @endif
         </div>
       @endforeach
     </div>
@@ -118,6 +145,9 @@
   </div>
 </section>
 
+<button id="scrollToTopBtn" class="fixed bottom-5 right-5 p-3 bg-blue-500 text-white rounded-full shadow-lg text-xl hidden hover:bg-blue-700">
+    ↑
+</button>
 
   <!-- Footer -->
   <footer class="bg-white text-center py-6 mt-12 border-t">
@@ -180,5 +210,27 @@ function scrollToProducts() {
 }
 
 </script>
+
+<script>
+        // Get the button
+        const mybutton = document.getElementById("scrollToTopBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        };
+
+        // When the user clicks on the button, scroll to the top of the document
+        mybutton.onclick = function() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        };
+    </script>
 </body>
 </html>
