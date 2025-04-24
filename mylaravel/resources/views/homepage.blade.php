@@ -1,83 +1,9 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>หน้าแรก - บริษัทของเรา</title>
-  @vite('resources/css/app.css') 
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<!-- resources/views/welcome.blade.php -->
+@extends('layouts.main')
 
-</head>
-<body class="bg-gray-100 text-gray-800">
+@section('title', 'หน้าหลัก')
 
-  <!-- Header -->
-  <header id="header" class="shadow bg-white p-6 sticky top-0 z-50 rounded-b-lg transition-all duration-300 ease-in-out">
-    <div class="container mx-auto flex justify-between items-center">
-      <div class="flex items-center">
-        <img src="storage/app/public/images/LogoPME.png" alt="Logo" class="w-20 mr-4">
-        <h1 class="text-xl md:text-2xl font-bold">
-          <span class="hidden md:inline">POWER MAGNET & ENGINEERING CO., LTD.</span>
-          <span class="md:hidden">PME</span>
-        </h1>
-      </div>
-            <!-- Desktop login -->
-            @if(Auth::check())
-            <nav class="hidden md:flex items-center">
-            <p class="mx-5 v">สวัสดี, {{ Auth::user()->name }}</p>
-            <form action="{{ route('logout') }}" class="font-bold text-blue-500 hover:underline mx-2" method="POST">
-                @csrf
-                <button type="submit">Logout</button>
-            </form>
-            </nav>
-            @else
-            <nav class="hidden md:flex items-center">
-            <p class="mx-5">สวัสดี, ผู้เยี่ยมชม</p>
-            <a href="{{ route('login') }}" class="font-bold text-blue-500 hover:underline mx-2">Login</a>
-            </nav>
-            @endif
-      
-
-      <button id="menu-toggle" class="md:hidden text-blue-500 focus:outline-none">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-    <nav id="mobile-menu" class="hidden md:hidden bg-white shadow-md p-4">
-  @if(Auth::check())
-    <div class="flex flex-col items-start">
-      <p class="mb-2">สวัสดี, {{ Auth::user()->name }}</p>
-      <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit" class="text-blue-500 font-bold hover:underline">Logout</button>
-      </form>
-    </div>
-  @else
-    <div class="flex flex-col items-start">
-      <p class="mb-2">สวัสดี, ผู้เยี่ยมชม</p>
-      <a href="{{ route('login') }}" class="text-blue-500 font-bold hover:underline">Login</a>
-    </div>
-  @endif
-</nav>
-</div>
-    </nav>
-  </header>
-
-  <script>
-    document.getElementById('menu-toggle').addEventListener('click', function () {
-      const mobileMenu = document.getElementById('mobile-menu');
-      mobileMenu.classList.toggle('hidden');
-    });
-    document.addEventListener('scroll', function () {
-      const header = document.getElementById('header');
-      if (window.scrollY > 0) {
-        header.classList.add('rounded-none', 'shadow');
-      } else {
-        header.classList.remove('rounded-none', 'shadow-none');
-      }
-    });
-
-  </script>
-
-  <!-- Hero Section -->
+@section('content')
   <section class="bg-blue-600 text-white text-center py-20 px-6">
     <h2 class="text-4xl font-bold mb-6">ยินดีต้อนรับสู่เว็บไซต์ของเรา</h2>
     <p class="text-left text-lg mb-6 max-w-4xl mx-auto">
@@ -175,87 +101,16 @@
 </button>
 
   <!-- Footer -->
-  <footer class="bg-white text-center py-6 mt-12 border-t">
-  <h5 class="text-lg font-bold">Contact</h5>
-    <div class="container mx-auto">
-      <div class="flex justify-center mb-4">
-        <a href="https://www.facebook.com/p/%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%A9%E0%B8%B1%E0%B8%97-%E0%B8%9E%E0%B8%B2%E0%B8%A7%E0%B9%80%E0%B8%A7%E0%B8%AD%E0%B8%A3%E0%B9%8C-%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81%E0%B9%80%E0%B8%99%E0%B9%87%E0%B8%95-%E0%B9%81%E0%B8%AD%E0%B8%99%E0%B8%94%E0%B9%8C-%E0%B9%80%E0%B8%AD%E0%B9%87%E0%B8%99%E0%B8%88%E0%B8%B4%E0%B9%80%E0%B8%99%E0%B8%B5%E0%B8%A2%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%87-%E0%B8%88%E0%B8%B3%E0%B8%81%E0%B8%B1%E0%B8%94-100063592420205/" target="_blank" class="text-blue-500 hover:underline mx-2">
-          <i class="fab fa-facebook mr-1"></i> Facebook
-        </a>
-        <a href="https://www.instagram.com/yourcompany" target="_blank" class="text-blue-500 hover:underline mx-2">
-          <i class="fab fa-instagram mr-1"></i> Instagram
-        </a>
-        <a href="https://manager.line.biz/account/@666nfzrm" target="_blank" class="text-blue-500 hover:underline mx-2">
-          <i class="fab fa-line mr-1"></i> Line
-        </a>
-      </div>
-      <div>
-        <h5 class="text-lg font-bold">ที่อยู่</h5>
-        <p>96 ซอยรังสิต-นครนายก 13 ต.ประชาธิปัตย์ อ.ธัญบุรี จ.ปทุมธานี 12130</p>
-      <p>เลขประจำตัวผู้เสียภาษี 0135563001201 (สำนักงานใหญ่)</p>
-      </div>
-      <div class="container mx-auto mt-4">
-      <h5 class="text-lg font-bold">ช่องทางติดต่อ</h5>
-      <p>โทรศัพท์: 094-913-2992</p>
-      <p>อีเมล: narunyamit@gmail.com</p>
-    </div>
-    </div>
-    
-  </footer>
 
 
-  <script>
-const toggleBtn = document.getElementById('toggle-btn');
-let expanded = false;
 
-toggleBtn.addEventListener('click', () => {
-  const extraProducts = document.querySelectorAll('.extra-product');
 
-  // สลับการแสดงของสินค้า
-  extraProducts.forEach(product => {
-    product.classList.toggle('hidden');
-  });
+@endsection
 
-  // สลับข้อความของปุ่ม
-  expanded = !expanded;
-  toggleBtn.textContent = expanded ? 'แสดงน้อยลง ▲' : 'อ่านเพิ่มเติม ▼';
-
-  // เลื่อนหน้าจอไปที่หัวข้อสินค้า (เมื่อกด "แสดงน้อยลง")
-  if (!expanded) {
-    scrollToProducts();
-  }
-});
-
-function scrollToProducts() {
-  const productsSection = document.getElementById('products'); // หาหมวดสินค้า
-  window.scrollTo({
-    top: productsSection.offsetTop, // ใช้ offsetTop เพื่อเลื่อนไปยังตำแหน่งของหัวข้อ "สินค้า"
-    behavior: 'smooth' // ให้เลื่อนอย่างนุ่มนวล
-  });
-}
-
-</script>
-
-<script>
-        // Get the button
-        const mybutton = document.getElementById("scrollToTopBtn");
-
-        // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                mybutton.style.display = "block";
-            } else {
-                mybutton.style.display = "none";
-            }
-        };
-
-        // When the user clicks on the button, scroll to the top of the document
-        mybutton.onclick = function() {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        };
-    </script>
-</body>
-</html>
+@section('scripts')
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+  
+  @endsection
