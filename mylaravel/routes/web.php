@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
-use App\Http\Middleware\Checklogin;
+use App\Http\Middleware\CheckLogin;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::middleware(['checklogin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');

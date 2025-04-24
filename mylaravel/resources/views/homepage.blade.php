@@ -20,23 +20,44 @@
           <span class="md:hidden">PME</span>
         </h1>
       </div>
-      <nav class="flex items-center">
-        @guest
-          <p class="mx-5 font-bold">ผู้เยี่ยมชม</p>
-          <a href="{{ route('login') }}" class="font-bold text-blue-500 hover:underline mx-2">Login</a>
-        @endguest
-        @auth
-          <p class="mx-5 font-bold">สวัสดี, {{ Auth::user()->name }}</p>
-          <a href="{{ route('login') }}" class="font-bold text-blue-500 hover:underline mx-2">Logout</a>
-        @endauth
-      </nav>
+            <!-- Desktop login -->
+            @if(Auth::check())
+            <nav class="hidden md:flex items-center">
+            <p class="mx-5 v">สวัสดี, {{ Auth::user()->name }}</p>
+            <form action="{{ route('logout') }}" class="font-bold text-blue-500 hover:underline mx-2" method="POST">
+                @csrf
+                <button type="submit">Logout</button>
+            </form>
+            </nav>
+            @else
+            <nav class="hidden md:flex items-center">
+            <p class="mx-5">สวัสดี, ผู้เยี่ยมชม</p>
+            <a href="{{ route('login') }}" class="font-bold text-blue-500 hover:underline mx-2">Login</a>
+            </nav>
+            @endif
+      
+
       <button id="menu-toggle" class="md:hidden text-blue-500 focus:outline-none">
         <i class="fas fa-bars"></i>
       </button>
     </div>
-    <nav id="mobile-menu" class="hidden md:hidden bg-white shadow-md">
-      <a href="#about" class="block text-blue-500 hover:underline px-6 py-2">เกี่ยวกับบริษัท</a>
-      <a href="#products" class="block text-blue-500 hover:underline px-6 py-2">สินค้า</a>
+    <nav id="mobile-menu" class="hidden md:hidden bg-white shadow-md p-4">
+  @if(Auth::check())
+    <div class="flex flex-col items-start">
+      <p class="mb-2">สวัสดี, {{ Auth::user()->name }}</p>
+      <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit" class="text-blue-500 font-bold hover:underline">Logout</button>
+      </form>
+    </div>
+  @else
+    <div class="flex flex-col items-start">
+      <p class="mb-2">สวัสดี, ผู้เยี่ยมชม</p>
+      <a href="{{ route('login') }}" class="text-blue-500 font-bold hover:underline">Login</a>
+    </div>
+  @endif
+</nav>
+</div>
     </nav>
   </header>
 
@@ -81,11 +102,13 @@
       <li class="mb-2">งานบริการติดตั้งงานท่อดักท์ เช่น ท่อดักท์ส่งลม, ท่อดักท์ระบายอากาศ</li>
       <li class="mb-2">งานติดตั้งระบบท่อดักท์ Exhaust ในโรงงาน</li>
     </ul>
-    @auth
-    <a href="{{ route('products.index') }}" class="bg-white text-blue-600 font-semibold px-6 py-3 rounded hover:bg-gray-100 transition mt-6 inline-block">
-        แก้ไขสินค้า
-    </a>
-    @endauth
+    @if(Auth::check())
+      <a href="{{ route('products.index') }}" class="bg-white text-blue-600 font-semibold px-6 py-3 rounded hover:bg-gray-100 transition mt-6 inline-block">
+          แก้ไขสินค้า
+      </a>
+    @endif
+
+
   </section>
 
   <!-- เกี่ยวกับบริษัท -->
@@ -128,6 +151,8 @@
           <p class="text-sm text-gray-600 mb-5">{{ $product->description }}</p>
           @if ($product->price == 0)
             <p class="text-sm text-blue-600 mt-auto">ราคา : โปรดติดต่อสอบถามผู้ขาย</p>
+          @elseif ($product->price < 0)
+          <p class="text-sm text-red-600 mt-auto">สินค้าหมด</p>
           @else
             <p class="text-sm text-blue-600 mt-auto">ราคา : ${{ number_format($product->price, 2) }}</p>
           @endif

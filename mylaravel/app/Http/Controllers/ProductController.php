@@ -59,20 +59,33 @@ class ProductController extends Controller
     }
 
     // Update the specified product in storage
-        public function update(Request $request, $id)
-        {
-            $product = Product::findOrFail($id);
-
-            $product->name = $request->name;
-            $product->description = $request->description;
-            $product->price = $request->price ? $request->price : null;
-
-            if ($product->save()) {
-                return response()->json(['success' => true]);
-            } else {
-                return response()->json(['success' => false], 500);
-            }
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+    
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price ? $request->price : null;
+    
+        // ✅ ตรวจสอบว่ามีการส่งรูปภาพใหม่เข้ามาหรือไม่
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = $image->getClientOriginalName();
+    
+            // เก็บรูปใหม่ใน storage/app/public/images
+            $image->move(storage_path('app/public/images'), $imageName);
+    
+            // บันทึกชื่อไฟล์ใหม่ลงใน database
+            $product->image = $imageName;
         }
+    
+        if ($product->save()) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false], 500);
+        }
+    }
+    
 
     // Remove the specified product from storage
     public function destroy($id)

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 class LoginController extends Controller
 {
     //
@@ -13,33 +15,27 @@ class LoginController extends Controller
         return view('login');
     }
 
-    function login(Request $req){
-        // echo "<pre>";
-        // print_r($req -> email);
-        // print_r($req -> password);
-        // echo "</pre>";
-        $user = User::where('email', $req->email)->first();
-        if($user && $req->password && Hash::check($req->password, $user->password)){
-            session()->forget('error');
-            session(['user'=> $user]);
-            return redirect('/');
+    public function login(Request $req)
+    {
+        $req->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+
+        $credentials = $req->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('/');  // ถ้าเข้าสู่ระบบสำเร็จ ให้ไปยังหน้าที่ผู้ใช้ต้องการ
         } else {
-            session(['error'=> 'Password or Username is incorrect']);
-            return view('login', ['email'=>$req->email]);
-            // return redirect('/login');
+            return redirect()->route('login')->withErrors(['error' => 'Username or Password is incorrect']);
         }
-
-        // return redirect('/home'); //แก้ตรงนี้นะ ถ้าใส่แล้วกลับไปไม่ถูกหน้า ลบ Home ออก
-
-
-        
     }
+
     public function logout()
     {
-        session()->forget('user');
-        return redirect()->route('login');
+        Auth::logout();
+        session()->flush();
+        return redirect()->route('home');
     }
-
 
 
 }
