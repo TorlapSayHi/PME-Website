@@ -4,7 +4,7 @@
 @section('title', 'หน้าหลัก')
 
 @section('content')
-  <section class="bg-blue-600 text-white text-center py-20 px-6">
+  <section class="bg-orange-400 text-white text-center py-20 px-6 rounded-lg shadow-lg">
     <h2 class="text-4xl font-bold mb-6">ยินดีต้อนรับสู่เว็บไซต์ของเรา</h2>
     <p class="text-left text-lg mb-6 max-w-4xl mx-auto">
       ออกแบบผลิตและติดตั้งแม่เหล็กคัดแยกโลหะ และบริการสอบเทียบแม่เหล็ก</p>
@@ -38,7 +38,7 @@
   </section>
 
   <!-- เกี่ยวกับบริษัท -->
-  <section id="about" class="py-12 bg-white text-center px-6">
+  <section id="about" class="py-12 bg-white text-center px-6 mt-5 rounded-lg shadow-lg">
     <div class="container mx-auto">
       <h3 class="text-2xl font-bold mb-6">เกี่ยวกับบริษัท</h3>
       <p class="max-w-3xl mx-auto leading-relaxed">

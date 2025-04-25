@@ -31,11 +31,11 @@
     <!-- เมนูมือถือ -->
     <nav id="mobile-menu" class="hidden absolute top-full left-0 right-0 bg-white shadow-md p-4 w-full z-40 transition-all duration-300 ease-in-out">
       @if(Auth::check())
-      <div class="flex flex-col items-start">
-        <p class="mb-2">สวัสดี, {{ Auth::user()->name }}</p>
+      <div class="flex flex-col items-start bg-blue-500 p-4 rounded-lg">
+        <p class="mb-2 text-white">สวัสดี, {{ Auth::user()->name }}</p>
         <form action="{{ route('logout') }}" method="POST">
           @csrf
-          <button type="submit" class="text-blue-500 font-bold hover:underline">Logout</button>
+          <button type="submit" class="text-white font-bold hover:underline">Logout</button>
         </form>
       </div>
       @else
