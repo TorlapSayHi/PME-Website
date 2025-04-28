@@ -64,63 +64,65 @@
     <script>
         function editProduct(id, name, description, price, image) {
             Swal.fire({
-                title: 'Edit Product',
-                html: `
-                    <input id="swal-input-name" class="swal2-input" placeholder="Name" value="${name}">
-                    <textarea id="swal-input-description" class="swal2-textarea" placeholder="Description">${description}</textarea>
-                    <input id="swal-input-price" type="number" class="swal2-input" placeholder="Price" value="${price}">
-                    <div class="mt-2">
-                        <label>Current Image:</label><br>
-                        <img src="{{ asset('public/storage/images/') }}/${image}" class="w-24 rounded my-2">
-                        <input id="swal-input-image" type="file" class="swal2-file">
-                    </div>
-                `,
-                showCancelButton: true,
-                confirmButtonText: 'Save',
-                preConfirm: () => {
-                    const newName = document.getElementById('swal-input-name').value;
-                    const newDescription = document.getElementById('swal-input-description').value;
-                    const newPrice = document.getElementById('swal-input-price').value;
-                    const newImage = document.getElementById('swal-input-image').files[0];
+        title: 'Edit Product',
+        html: `
+            <input id="swal-input-name" class="swal2-input" placeholder="Name" value="${name}">
+            <textarea id="swal-input-description" class="swal2-textarea" placeholder="Description">${description}</textarea>
+            <input id="swal-input-price" type="number" class="swal2-input" placeholder="Price" value="${price}">
+            <div class="mt-2">
+                <label>Current Image:</label><br>
+                <img src="{{ asset('storage/images') }}/${image}" class="w-24 rounded my-2">
+                <input id="swal-input-image" type="file" class="swal2-file">
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Save',
+        preConfirm: () => {
+            const newName = document.getElementById('swal-input-name').value;
+            const newDescription = document.getElementById('swal-input-description').value;
+            const newPrice = document.getElementById('swal-input-price').value;
+            const newImage = document.getElementById('swal-input-image').files[0];
 
-                    if (!newName || !newDescription || !newPrice) {
-                        Swal.showValidationMessage('All fields are required');
-                        return false;
-                    }
+            if (!newName || !newDescription || !newPrice) {
+                Swal.showValidationMessage('All fields are required');
+                return false;
+            }
 
-                    return { name: newName, description: newDescription, price: newPrice, image: newImage };
+            return { name: newName, description: newDescription, price: newPrice, image: newImage };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append('name', result.value.name);
+            formData.append('description', result.value.description);
+            formData.append('price', result.value.price);
+            formData.append('_method', 'PUT'); // Laravel expects this for method spoofing
+            if (result.value.image) {
+                formData.append('image', result.value.image);
+            }
+
+            fetch(`/products/${id}`, {   // 👈 ใช้ path ตรงนี้
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire('Saved!', 'Product updated successfully.', 'success')
+                        .then(() => location.reload());
+                } else {
+                    Swal.fire('Error!', 'Failed to update product.', 'error');
                 }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const formData = new FormData();
-                    formData.append('name', result.value.name);
-                    formData.append('description', result.value.description);
-                    formData.append('price', result.value.price);
-                    formData.append('_method', 'PUT');
-                    if (result.value.image) {
-                        formData.append('image', result.value.image);
-                    }
-                    fetch(`{{ route('products.update', ':id') }}`.replace(':id', id), {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire('Saved!', 'Product updated successfully.', 'success')
-                                .then(() => location.reload());
-                        } else {
-                            Swal.fire('Error!', 'Failed to update product.', 'error');
-                        }
-                    })
-                    .catch(() => {
-                        Swal.fire('Error!', 'Failed to update product.', 'error');
-                    });
-                }
+            })
+            .catch(() => {
+                Swal.fire('Error!', 'Failed to update product.', 'error');
             });
+        }
+    });
+
         }
     </script>
 </body>
