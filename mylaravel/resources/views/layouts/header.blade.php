@@ -2,7 +2,7 @@
 <header id="header" class="shadow bg-white p-6 sticky top-0 z-50 rounded-lg transition-all duration-300 ease-in-out">
   <div class="container mx-auto flex justify-between items-center">
     <div class="flex items-center">
-      <img src="storage/app/public/images/LogoPME.png" alt="Logo" class="w-20 mr-4">
+    <img src="{{ asset('storage/images/LogoPME.png') }}" alt="Logo" class="w-20 mr-4">
       <h1 class="text-xl md:text-2xl font-bold">
         <span class="hidden md:inline">POWER MAGNET & ENGINEERING CO., LTD.</span>
         <span class="md:hidden">PME</span>
