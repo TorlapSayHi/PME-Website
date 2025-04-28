@@ -29,7 +29,7 @@
                     <td class="px-6 py-4">{{ $product->name }}</td>
                     <td class="px-6 py-4">{{ $product->description }}</td>
                     <td class="px-6 py-4">
-                        <img src="{{ asset('public/storage/images/' . $product->image) }}" class="w-24 rounded">
+                        <img src="{{ asset('storage/images/' . $product->image) }}" class="w-24 rounded">
                     </td>
                     <td class="px-6 py-4 font-semibold text-green-600">${{ number_format($product->price, 2) }}</td>
                     <td class="px-6 py-4 text-center space-x-2">

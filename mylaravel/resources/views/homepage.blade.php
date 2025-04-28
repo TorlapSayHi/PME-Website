@@ -71,7 +71,7 @@
         <div class="flex flex-col bg-white p-6 rounded shadow {{ $index > 2 ? 'hidden extra-product' : '' }}">
           
             <p class="text-center flex justify-center mb-5">
-            <img src="{{ asset('public/storage/images/' . $product->image) }}" style="width: auto; height: 150px; border-radius: 5px;">
+            <img src="{{ asset('storage/images/' . $product->image) }}" style="width: auto; height: 150px; border-radius: 5px;">
             </p>
           <h4 class="text-lg font-bold mb-2">{{ $product->name }}</h4>
           <p class="text-sm text-gray-600 mb-5">{{ $product->description }}</p>
