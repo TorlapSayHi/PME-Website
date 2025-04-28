@@ -3,7 +3,10 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
+  <meta name="robots" content="index, follow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="title" content="Power Magnet & Engineering Co., Ltd.">
+  <meta name="description" content="บริษัท พาวเวอร์แม็กเน็ต แอนด์ เอ็นจิเนียริ่ง จำกัด ดำเนินธุรกิจ ออกแบบผลิตและติดตั้งแม่เหล็กคัดแยกโลหะและบริการสอบเทียบแม่เหล็ก พร้อมทั้งงานโครงสร้างเหล็ก สแตนเลส งานระบบไฟฟ้า พร้อมทั้งงานซ่อมบำรุงทั่วไป">
   <title>@yield('title', 'หน้าแรก - บริษัทของเรา')</title>
   @vite('resources/css/app.css')
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
