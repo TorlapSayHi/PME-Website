@@ -64,19 +64,19 @@
     <script>
         function editProduct(id, name, description, price, image) {
             Swal.fire({
-        title: 'Edit Product',
-        html: `
-            <input id="swal-input-name" class="swal2-input" placeholder="Name" value="${name}">
-            <textarea id="swal-input-description" class="swal2-textarea" placeholder="Description">${description}</textarea>
-            <input id="swal-input-price" type="number" class="swal2-input" placeholder="Price" value="${price}">
-            <div class="mt-2">
-                <label>Current Image:</label><br>
-                <img src="{{ asset('storage/images') }}/${image}" class="w-24 rounded my-2">
-                <input id="swal-input-image" type="file" class="swal2-file">
-            </div>
-        `,
-        showCancelButton: true,
-        confirmButtonText: 'Save',
+                title: 'Edit Product',
+                html: `
+                    <input id="swal-input-name" class="swal2-input" placeholder="Name" value="${name}">
+                    <textarea id="swal-input-description" class="swal2-textarea" placeholder="Description">${description}</textarea>
+                    <input id="swal-input-price" type="number" class="swal2-input" placeholder="Price" value="${price}">
+                    <div class="mt-2">
+                        <label>Current Image:</label><br>
+                        <img src="{{ asset('storage/images') }}/` + image + `" class="w-24 rounded my-2">
+                        <input id="swal-input-image" type="file" class="swal2-file">
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Save',
         preConfirm: () => {
             const newName = document.getElementById('swal-input-name').value;
             const newDescription = document.getElementById('swal-input-description').value;
